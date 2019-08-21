@@ -1,20 +1,19 @@
 import React, { Component, Fragment, useState } from 'react'
-import OrderInputs from '../constants/input/order.js';
+import {inputOrdenSn,
+    inputCountry,
+    inputFirstName,
+    inputLastName,
+    inputAddressLine1,
+    inputAddressLine2,
+    inputTel,
+    inputState,
+    inputCity,
+    inputZip} from '../constants/input/order.js';
 import ProductForm from './ProductForm.js';
 import Input from '../components/Input.js';
 
 
 function OrderForm() {
-    const { inputOrdenSn,
-        inputCountry,
-        inputFirstName,
-        inputLastName,
-        inputAddressLine1,
-        inputAddressLine2,
-        inputTel,
-        inputState,
-        inputCity,
-        inputZip } = OrderInputs
     const initialValues = {
         zip: '',
         state: '',
