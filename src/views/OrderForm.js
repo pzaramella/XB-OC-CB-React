@@ -1,44 +1,49 @@
 import React, { Component, Fragment, useState } from 'react'
-import OrderInputs from '../constants/input/order.js';
+import {inputOrdenSn,
+    inputCountry,
+    inputFirstName,
+    inputLastName,
+    inputAddressLine1,
+    inputAddressLine2,
+    inputTel,
+    inputState,
+    inputCity,
+    inputZip} from '../constants/input/order.js';
 import ProductForm from './ProductForm.js';
 import Input from '../components/Input.js';
 
 
 function OrderForm() {
-    const { inputOrdenSn,
-        inputCountry,
-        inputFirstName,
-        inputLastName,
-        inputAddressLine1,
-        inputAddressLine2,
-        inputTel,
-        inputState,
-        inputCity,
-        inputZip } = OrderInputs
     const initialValues = {
         zip: '',
         state: '',
         city: ''
     }
-    const [stateForm, setStateForm] = useState({ ...initialValues })
+    const [stateForm, setStateForm] = useState(initialValues)
 
-
-    console.log(stateForm)
     function saveOrder(event) {
         event.preventDefault()
-        console.log('event: ', stateForm)
+        console.log('saveOrder - stateForm: ', stateForm)
     }
 
-    function test({ name, value }) {
-        console.log('target', { name, value })
-        console.log('stateForm', stateForm)
-        setStateForm({
-            ...stateForm,
-            [name]: value
-        })
-
-        console.log('stateForm', stateForm)
+    function test(value,event) {
+        const name = event.target.name
+        console.log('value: ',value)
+        console.log('name: ',name)
+        // console.log(`[name]:${[name]}`)
+        // console.log('stateForm: ', stateForm)
+        setStateForm((prevState)=>({...prevState, [name]:value}))
+        // console.log('stateForm: ', stateForm)
     }
+    // function test_v2(event) {
+    //     const {name,value} = event.target
+    //     console.log('value: ',name)
+    //     console.log('value: ',value)
+
+    //     setStateForm({...stateForm,[name]:value})
+
+    //     // setStateForm({...stateForm,[name]:value})
+    // }
     return (
         <Fragment>
             <form onSubmit={saveOrder}>

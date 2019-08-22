@@ -58,12 +58,7 @@ class Input extends Component {
                     this.setState({ hasError: res, validate: false })
                 }
                 } // Optional.[Func].Default: none. Return the validation result.
-                onChange={(name, event) => {
-                    console.log('name: ', name)
-                    console.log('event: ', event.target)
-                    this.state.handler({ name: event.target.name, value: event.target.value })
-                    // console.log(e.target.value);
-                }}  // Required.[Func].Default: () => {}. Will return the value.
+                onChange={this.state.handler}  // Required.[Func].Default: () => {}. Will return the value.
                 validationOption={{
                     name: "name", // Optional.[String].Default: "". To display in the Error message. i.e Please enter your ${name}.
                     check: true, // Optional.[Bool].Default: true. To determin if you need to validate.
