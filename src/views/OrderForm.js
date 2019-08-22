@@ -10,8 +10,7 @@ import {inputOrdenSn,
     inputCity,
     inputZip} from '../constants/input/order.js';
 import ProductForm from './ProductForm.js';
-// import Input from '../components/Input.js';
-import Input from '../components/Input_v2'
+import Input from '../components/Input.js';
 
 
 function OrderForm() {
@@ -20,33 +19,31 @@ function OrderForm() {
         state: '',
         city: ''
     }
-    const [stateForm, setStateForm] = useState( {
-        zip: '',
-        state: '',
-        city: ''
-    })
+    const [stateForm, setStateForm] = useState(initialValues)
 
     function saveOrder(event) {
         event.preventDefault()
-        console.log('event: ', stateForm)
+        console.log('saveOrder - stateForm: ', stateForm)
     }
 
-    // function test(value,event) {
-    //     const name = event.target.name
+    function test(value,event) {
+        const name = event.target.name
+        console.log('value: ',value)
+        console.log('name: ',name)
+        // console.log(`[name]:${[name]}`)
+        // console.log('stateForm: ', stateForm)
+        setStateForm((prevState)=>({...prevState, [name]:value}))
+        // console.log('stateForm: ', stateForm)
+    }
+    // function test_v2(event) {
+    //     const {name,value} = event.target
+    //     console.log('value: ',name)
     //     console.log('value: ',value)
-    //     console.log('event: ',event.target.name)
 
     //     setStateForm({...stateForm,[name]:value})
+
+    //     // setStateForm({...stateForm,[name]:value})
     // }
-    function test_v2(event) {
-        const {name,value} = event.target
-        console.log('value: ',name)
-        console.log('value: ',value)
-
-        setStateForm({...stateForm,[name]:value})
-
-        // setStateForm({...stateForm,[name]:value})
-    }
     return (
         <Fragment>
             <form onSubmit={saveOrder}>
@@ -59,9 +56,9 @@ function OrderForm() {
                 <Input {...inputAddressLine1} test={test} />
                 <Input {...inputAddressLine2} test={test} />
                 <Input {...inputCountry} test={test} /> */}
-                <Input {...inputCity} test={test_v2} />
-                <Input {...inputState} test={test_v2} />
-                <Input {...inputZip} test={test_v2} />
+                <Input {...inputCity} test={test} />
+                <Input {...inputState} test={test} />
+                <Input {...inputZip} test={test} />
                 <h2>Datos de los productos</h2>
                 <ProductForm />
                 <button type="submit">Guardar</button>
