@@ -5,12 +5,12 @@ import Input from '../components/Input.js';
 class ProductForm extends Component {
     render() {
         const { inputGoodSn, inputGoodsNumber } = ProductInputs
-        return (<Fragment>
+        return (
             <div>
-                <Input {...inputGoodSn} />
-                <Input {...inputGoodsNumber} />
+                <Input {...inputGoodSn} test={this.props.test} />
+                <Input {...inputGoodsNumber} test={this.props.test} />
             </div>
-        </Fragment>)
+        )
     }
 }
 

@@ -1,4 +1,4 @@
-export const  inputOrdenSn = {
+export const inputOrdenSn = {
   id: 'OrderSn',
   name: 'OrderSn',
   value: '',
@@ -14,7 +14,7 @@ export const inputCountry = {
   disabled: false,
   validate: false
 }
-export const inputFirstName =  {
+export const inputFirstName = {
   id: 'FirstName',
   name: 'FirstName',
   value: '',
@@ -56,7 +56,7 @@ export const inputTel = {
 }
 export const inputState = {
   id: 'State',
-  name: 'state',
+  name: 'State',
   value: '',
   type: 'text',
   disabled: false,
@@ -64,15 +64,15 @@ export const inputState = {
 }
 export const inputCity = {
   id: 'City',
-  name: 'city',
+  name: 'City',
   value: '',
   type: 'text',
   disabled: false,
   validate: false
 }
-export const inputZip=  {
+export const inputZip = {
   id: 'Zip',
-  name: 'zip',
+  name: 'Zip',
   value: '',
   type: 'number',
   disabled: false,

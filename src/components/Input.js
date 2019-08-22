@@ -4,7 +4,6 @@ import {
 } from "react-inputs-validation";
 import "react-inputs-validation/lib/react-inputs-validation.min.css";
 
-
 class Input extends Component {
     constructor(props) {
         super(props);
@@ -16,9 +15,10 @@ class Input extends Component {
             type: this.props.type,
             disabled: this.props.disabled,
             validate: this.props.validate,*/
-            placeholder: `mensaje ${this.props.name}`,
+            validate: this.props.validate,
+            placeholder: `Please complete the ${this.props.name}`,
             hasError: true,
-            handler: this.props.test
+            //handler: this.props.test
         };
 
         this.validateForm = this.validateForm.bind(this);
@@ -33,15 +33,10 @@ class Input extends Component {
         this.toggleValidating(true);
         const { hasError } = this.state;
 
-        if (
-            !hasError
-        ) {
+        if (!hasError) {
             alert("All validated!");
         }
     }
-
-
-
 
     render() {
         return (
@@ -49,18 +44,18 @@ class Input extends Component {
                 id={this.props.id} // Optional.[String].Default: "".  Input ID.
                 name={this.props.name} // Optional.[String].Default: "". Input name.
                 type={this.props.type} // Optional.[String].Default: "text". Input type [text, password, number].
-                value={this.props.value} // Optional.[String].Default: "".
+                value={this.state.value} // Optional.[String].Default: "".
                 disabled={this.props.disabled} // Optional.[Bool].Default: false.
-                placeholder="" // Optional.[String].Default: "".
+                placeholder={this.state.placeholder} // Optional.[String].Default: "".
                 validate={this.props.validate || true} // Optional.[Bool].Default: false. If you have a submit button and trying to validate all the inputs of your form at onece, toggle it to true, then it will validate the field and pass the result via the "validationCallback" you provide.
                 validationCallback={(res) => {
                     console.log(res);
                     this.setState({ hasError: res, validate: false })
                 }
                 } // Optional.[Func].Default: none. Return the validation result.
-                onChange={this.state.handler}  // Required.[Func].Default: () => {}. Will return the value.
+                onChange={this.props.test}  // Required.[Func].Default: () => {}. Will return the value.
                 validationOption={{
-                    name: "name", // Optional.[String].Default: "". To display in the Error message. i.e Please enter your ${name}.
+                    name: this.props.name, // Optional.[String].Default: "". To display in the Error message. i.e Please enter your ${name}.
                     check: true, // Optional.[Bool].Default: true. To determin if you need to validate.
                     required: true // Optional.[Bool].Default: true. To determin if it is a required field.
                     // type: 'string', // Optional.[String].Default: "string". Validation type, options are ['string', 'number', 'alphanumeric', 'alpha'].

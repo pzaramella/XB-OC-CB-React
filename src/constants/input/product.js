@@ -1,5 +1,4 @@
 
-
 const ProductInputs = {
     inputGoodSn: {
         id: 'GoodSn',
@@ -10,8 +9,8 @@ const ProductInputs = {
         validate: false
     },
     inputGoodsNumber: {
-        id: 'GoodsNumbe',
-        name: 'GoodsNumbe',
+        id: 'GoodsNumber',
+        name: 'GoodsNumber',
         value: '',
         type: 'number',
         disabled: false,
