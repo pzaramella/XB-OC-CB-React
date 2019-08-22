@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Input = ({test}) => {
-    return <input onChange={test}/>
+const Input = ({name,test}) => {
+    return <input name={name}onChange={test}/>
 }
 
 export default Input; 

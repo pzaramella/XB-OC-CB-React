@@ -11,7 +11,7 @@ import {inputOrdenSn,
     inputZip} from '../constants/input/order.js';
 import ProductForm from './ProductForm.js';
 // import Input from '../components/Input.js';
-import Input from '../components/Input.js'
+import Input from '../components/Input_v2'
 
 
 function OrderForm() {
@@ -31,21 +31,22 @@ function OrderForm() {
         console.log('event: ', stateForm)
     }
 
-    function test(value,event) {
-        const name = event.target.name
+    // function test(value,event) {
+    //     const name = event.target.name
+    //     console.log('value: ',value)
+    //     console.log('event: ',event.target.name)
+
+    //     setStateForm({...stateForm,[name]:value})
+    // }
+    function test_v2(event) {
+        const {name,value} = event.target
+        console.log('value: ',name)
         console.log('value: ',value)
-        console.log('event: ',event.target.name)
 
         setStateForm({...stateForm,[name]:value})
+
+        // setStateForm({...stateForm,[name]:value})
     }
-    // function test_v2(value,event) {
-    //     console.log('value: ',value)
-    //     console.log('event: ',event)
-    //     // setStateForm({
-    //     //     ...stateForm,
-    //     //     [name]: value
-    //     // })
-    // }
     return (
         <Fragment>
             <form onSubmit={saveOrder}>
@@ -58,9 +59,9 @@ function OrderForm() {
                 <Input {...inputAddressLine1} test={test} />
                 <Input {...inputAddressLine2} test={test} />
                 <Input {...inputCountry} test={test} /> */}
-                <Input {...inputCity} test={test} />
-                <Input {...inputState} test={test} />
-                <Input {...inputZip} test={test} />
+                <Input {...inputCity} test={test_v2} />
+                <Input {...inputState} test={test_v2} />
+                <Input {...inputZip} test={test_v2} />
                 <h2>Datos de los productos</h2>
                 <ProductForm />
                 <button type="submit">Guardar</button>
