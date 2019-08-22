@@ -10,7 +10,8 @@ import {inputOrdenSn,
     inputCity,
     inputZip} from '../constants/input/order.js';
 import ProductForm from './ProductForm.js';
-import Input from '../components/Input.js';
+// import Input from '../components/Input.js';
+import Input from '../components/Input.js'
 
 
 function OrderForm() {
@@ -19,25 +20,32 @@ function OrderForm() {
         state: '',
         city: ''
     }
-    const [stateForm, setStateForm] = useState({ ...initialValues })
+    const [stateForm, setStateForm] = useState( {
+        zip: '',
+        state: '',
+        city: ''
+    })
 
-
-    console.log(stateForm)
     function saveOrder(event) {
         event.preventDefault()
         console.log('event: ', stateForm)
     }
 
-    function test({ name, value }) {
-        console.log('target', { name, value })
-        console.log('stateForm', stateForm)
-        setStateForm({
-            ...stateForm,
-            [name]: value
-        })
+    function test(value,event) {
+        const name = event.target.name
+        console.log('value: ',value)
+        console.log('event: ',event.target.name)
 
-        console.log('stateForm', stateForm)
+        setStateForm({...stateForm,[name]:value})
     }
+    // function test_v2(value,event) {
+    //     console.log('value: ',value)
+    //     console.log('event: ',event)
+    //     // setStateForm({
+    //     //     ...stateForm,
+    //     //     [name]: value
+    //     // })
+    // }
     return (
         <Fragment>
             <form onSubmit={saveOrder}>
