@@ -56,7 +56,7 @@ class Input extends Component {
                 onChange={this.props.test}  // Required.[Func].Default: () => {}. Will return the value.
                 validationOption={{
                     name: this.props.name, // Optional.[String].Default: "". To display in the Error message. i.e Please enter your ${name}.
-                    check: true, // Optional.[Bool].Default: true. To determin if you need to validate.
+                    check: false, // Optional.[Bool].Default: true. To determin if you need to validate.
                     required: true // Optional.[Bool].Default: true. To determin if it is a required field.
                     // type: 'string', // Optional.[String].Default: "string". Validation type, options are ['string', 'number', 'alphanumeric', 'alpha'].
                     // showMsg: true, // Optional.[Bool].Default: true. To determin display the error message or not.

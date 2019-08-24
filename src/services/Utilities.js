@@ -1,4 +1,3 @@
-
 export const orderMapList = {
     user_order_sn: 'OrderSn',
     country: 'Country',
@@ -26,3 +25,22 @@ export const mapper = (mapList, object, finder = (collection, key) => collection
     Object.keys(mapList).reduce((previous, localAttribute) =>
         ({ ...previous, ...{ [localAttribute]: finder(object, mapList[localAttribute]) } }), {})
 );
+
+export const createArraybyObject = (object) => {
+    return Object.values(object)
+}
+
+export const sortObjectAsc = (items, property) => {
+    items.sort(function (a, b) {
+        if (a[property] > b[property]) {
+            return -1;
+        }
+        if (a[property] < b[property]) {
+            return 0;
+        }
+        // a must be equal to b
+        return 1;
+    });
+
+    return items
+}

@@ -1,4 +1,5 @@
-import React, { Component, Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
+import '../css/OrderForm.css'
 import {
     inputOrdenSn,
     inputCountry,
@@ -14,13 +15,15 @@ import {
 import ProductForm from './ProductForm.js';
 import Input from '../components/Input.js';
 import { createOrder } from '../services/OrderService'
+import { getWarehousebyProduct } from '../services/ProductService'
+
 
 
 function OrderForm() {
     const initProduct = { GoodSn: '', GoodsNumber: 0 };
     const [stateForm, setStateForm] = useState({})
     const [stateProducts, setStateProducts] = useState([initProduct])
-    const products = []
+    const [stateWarehouse, setStateWorehouse] = useState({})
 
     function saveOrder(event) {
         event.preventDefault()
@@ -46,9 +49,26 @@ function OrderForm() {
         })
     }
 
+    const loadOptionsWarehouse = index => async (value, event) => {
+        const warehouses = await getWarehousebyProduct(stateProducts[index].name)
+        setStateWorehouse(prevState => {
+            prevState[index] = { [value]: warehouses }
+            return prevState;
+        })
+    }
+
+    const selectOnChange = index => (value, event) => {
+        console.log(event.target)
+        setStateProducts(prevState => {
+            prevState[index] = { ...prevState[index], [value]: value }
+            return prevState;
+        })
+        loadOptionsWarehouse(index)
+    }
+
     return (
         <Fragment>
-            <form onSubmit={saveOrder}>
+            <form className="orderForm" onSubmit={saveOrder}>
                 <h2>Datos de contacto</h2>
                 <Input {...inputOrdenSn} test={test} />
                 <Input {...inputFirstName} test={test} />
@@ -61,12 +81,13 @@ function OrderForm() {
                 <Input {...inputCity} test={test} />
                 <Input {...inputState} test={test} />
                 <Input {...inputZip} test={test} />
-                <h2>Datos de los productos</h2>
+                <div><h2>Datos de los productos</h2> <button type="button" className="button" onClick={addProduct}>Agregar producto</button>
+                </div>
                 {stateProducts.map((product, index) =>
-                    <ProductForm key={index} index={index} test={productOnChange(index)} />
+                    <ProductForm key={index} index={index} test={productOnChange(index)} selectOnChange={selectOnChange(index)} loadOptionsWarehouse={loadOptionsWarehouse} />
                 )}
-                <button type="button" onClick={addProduct}>Agregar producto</button>
-                <button type="submit">Guardar</button>
+
+                <button type="submit" className="button">Guardar</button>
             </form>
         </Fragment>
 

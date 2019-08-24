@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import OrderForm from './views/OrderForm'
 
@@ -9,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <h3>Formulario de Ordenes de Compra - CB</h3>
       </header>
       <OrderForm />
     </div>
