@@ -11,7 +11,6 @@ class ProductForm extends Component {
             <div className="product">
                 <Selector {...inputGoodSn} test={this.props.selectOnChangeProduct} />
                 <Input {...inputGoodsNumber} test={this.props.test} />
-                <SelectWarehouse value={this.props.warehouses} test={this.props.selectOnChangeWarehouse} />
             </div>
         )
     }

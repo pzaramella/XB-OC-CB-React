@@ -15,19 +15,20 @@ import {
 import ProductForm from './ProductForm';
 import Input from '../components/Input';
 import { createOrder } from '../services/OrderService'
-import { getWarehousebyProduct } from '../services/ProductService'
-import { skuList } from "../constants/mocks/SkuList";
 
 function OrderForm() {
-    const initProduct = { GoodSn: '', GoodsNumber: 0 };
+    const initProduct = { GoodSn: '', GoodNumber: 0 };
     const warehouses = [];
     const [stateForm, setStateForm] = useState({})
     const [stateProducts, setStateProducts] = useState([initProduct])
-    const [stateWarehouse, setStateWorehouse] = useState(warehouses)
 
     function saveOrder(event) {
         event.preventDefault()
-        createOrder(stateForm, stateProducts)
+        /** order=[] */
+        const order = createOrder(stateForm, stateProducts)
+        /** TODO: save order */
+        /** TODO: pay order */
+
     }
 
     function test(product, event) {
@@ -49,32 +50,13 @@ function OrderForm() {
         })
     }
 
-    const selectOnChangeWarehouse = index => (value, event) => {
-        console.log('Hola warehouses')
-        setStateForm(prevState => {
-            prevState[index] = { ...prevState[index], [value]: value }
-            return prevState;
-        })
-    }
-
-    const loadOptionsWarehouse = index => {
-        console.log('estoy en loadOptionsWarehouse', index)
-        //const warehouses = await getWarehousebyProduct(stateProducts[index].GoodSn)
-
-        setStateWorehouse(prevState => {
-            prevState[index] = { value: [{ label: 339656401, value: 339656401 }, { label: 452550401, value: 452550401 }] }
-            return prevState;
-        })
-    }
-
     const selectOnChangeProduct = index => (value, event) => {
         console.log('Hola')
+        const name = event.name
         setStateProducts(prevState => {
-            prevState[index] = { ...prevState[index], [value]: value }
+            prevState[index] = { ...prevState[index], [name]: value.value }
             return prevState;
         })
-
-        loadOptionsWarehouse(index)
     }
 
     return (
@@ -97,9 +79,7 @@ function OrderForm() {
                 {stateProducts.map((product, index) =>
                     <ProductForm key={index} index={index}
                         test={productOnChange(index)}
-                        selectOnChangeProduct={selectOnChangeProduct(index)}
-                        selectOnChangeWarehouse={selectOnChangeWarehouse}
-                        warehouses={stateWarehouse[index] && stateWarehouse[index].value} />
+                        selectOnChangeProduct={selectOnChangeProduct(index)} />
                 )}
 
                 <button type="submit" className="button">Guardar</button>

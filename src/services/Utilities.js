@@ -17,7 +17,7 @@ export const orderMapList = {
 
 export const productsMapList = {
     good_sn: 'GoodSn',
-    good_number: 'GoodsNumber'
+    good_number: 'GoodNumber'
 }
 
 

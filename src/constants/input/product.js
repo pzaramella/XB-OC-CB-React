@@ -8,8 +8,8 @@ const ProductInputs = {
         validate: false
     },
     inputGoodsNumber: {
-        id: 'GoodsNumber',
-        name: 'GoodsNumber',
+        id: 'GoodNumber',
+        name: 'GoodNumber',
         value: '',
         type: 'number',
         disabled: false,

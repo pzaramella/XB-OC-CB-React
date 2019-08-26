@@ -1,9 +1,9 @@
 import { getProductsCB, getShippingCB } from '../servicesCB/OrderServiceCB'
 import { createArraybyObject, sortObjectAsc } from '../services/Utilities'
 
-let stringSkuProducts = (products) => {
+export let stringSkuProducts = (products) => {
     const skus = products.map((prod, index) => {
-        return prod.goods_number
+        return prod.good_sn
     })
     return skus.join()
 }
@@ -12,35 +12,101 @@ export const avalaibleWarehouses = (warehouseList, quantity) => {
     return warehouseList.filter(warehouse => warehouse.goods_number >= quantity);
 }
 
-export const getWarehousesByProduct = (products) => {
-    return products.map((product, i) => {
+export const getWarehousesByProduct = (productsCB, productsForm) => {
+    return productsCB.map((product, i) => {
         const warehouseList = createArraybyObject(product.warehouse_list)
-        return { warehouseList, sku: product.good_sn }
+        const productForm = productsForm.find(value => {
+            return value.good_sn.toString() === product.sku.toString()
+        }
+        )
+        return { warehouseList, sku: product.sku, quantity: productForm.good_number }
     })
 }
 
 export const getWarehouseByProduct = (products) => {
-    const seenWarehouses = { mostSeen: {} };
+    /*  const seenWarehouses = {};
+ 
+     products.forEach(product => {
+         product.warehouseList.forEach(warehouse => {
+             const name = warehouse.warehouse
+             if (seenWarehouses[name] && Number(warehouse.goods_number) >= Number(product.quantity)) {
+                 const seenWarehouse = seenWarehouses[name]
+                 seenWarehouses[name] = [...seenWarehouse, product.sku]
+             } else if (Number(warehouse.goods_number) >= Number(product.quantity)) {
+                 seenWarehouses[name] = [product.sku]
+             }
+         });
+     });
+     let list = []
+ 
+     products.forEach(product => {
+         let aux = { products: [] }
+         let alreadyExist = false;
+         product.warehouseList.forEach(warehouse => {
+             const name = warehouse.warehouse
+             console.log('Actual WS:', name)
+             console.log('seenWarehouses ', seenWarehouses[name])
+             console.log('aux ', aux)
+             if (seenWarehouses[name] && seenWarehouses[name].length > aux['products'].length) {
+                 console.log('list', console.log())
+                 alreadyExist = list.find(value => {
+                     return value.name === name && value.products.indexOf(product.sku) > -1
+                         || value.products.indexOf(product.sku) > -1
+                 })
+ 
+                 if (!alreadyExist) {
+                     aux = { 'name': name, products: seenWarehouses[name] }
+                 } else {
+                     aux = { products: [] }
+                 }
+             }
+         })
+ 
+         if (aux.products.length > 0)
+             list.push(aux)
+ 
+     })
+     console.log('list', list)
+     return list; */
+    const seenWarehouses = {};
 
     products.forEach(product => {
-        product.warehouseList.forEach(warehouse => {
-            if (seenWarehouses[warehouse]) {
-                const seenWarehouse = seenWarehouses[warehouse]
-                seenWarehouses[warehouse] = [...seenWarehouse, product.sku]
+        const prodQty = Number(product.quantity);
+        const bestWh = product.warehouseList
+            .reduce((wh, next) => {
+                if (!wh) {
+                    return next;
+                } else {
+                    const whGoods = Number(wh.goods_number);
+                    const nextGoods = Number(next.goods_number);
+                    if (!isNaN(nextGoods) && !isNaN(whGoods) &&
+                        nextGoods >= prodQty && nextGoods > whGoods) {
+                        return next;
+                    }
+                }
+                return wh;
+            });
+
+        const bestWhStock = Number(bestWh.goods_number);
+        if (bestWhStock >= prodQty) {
+            if (seenWarehouses[bestWh.warehouse]) {
+                const seenWarehouse = seenWarehouses[bestWh.warehouse]
+                seenWarehouses[bestWh.warehouse] = {
+                    ...seenWarehouse,
+                    products: [...seenWarehouse.products, { good_sn: product.sku, good_number: product.quantity }]
+                }
             } else {
-                seenWarehouses[warehouse] = [product.sku]
+                seenWarehouses[bestWh.warehouse] = {
+                    name: bestWh.warehouse,
+                    products: [{ good_sn: product.sku, good_number: product.quantity }]
+                }
             }
-            const mostSeen = Object.values(seenWarehouses.mostSeen)[0]
-            if (mostSeen && seenWarehouses[warehouse].length > mostSeen.length) {
-                seenWarehouses.mostSeen = { [warehouse]: seenWarehouses[warehouse] }
-            } else {
-                seenWarehouses.mostSeen = { [warehouse]: seenWarehouses[warehouse] }
-            }
-        });
+        }
     });
 
-    return seenWarehouses;
+    return Object.values(seenWarehouses);
 }
+
 
 /** products: List the product from order. Object from view format: Sku and Quantity respectively
  * [{good_sn: '3243434', good_number: 2},{good_sn: '55446677', good_number: 20}] */

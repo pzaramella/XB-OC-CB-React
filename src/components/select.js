@@ -38,7 +38,7 @@ class Selector extends Component {
     }
 
     render() {
-        return (<Select options={this.props.value} onChange={this.props.test} />)
+        return (<Select options={this.props.value} name={this.props.name} onChange={this.props.test} />)
     }
 }
 
