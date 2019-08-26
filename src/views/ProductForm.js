@@ -1,4 +1,4 @@
-import ProductInputs from '../constants/input/product.js';
+import ProductInputs from '../constants/input/Product.js';
 import React, { Component } from 'react'
 import Input from '../components/Input.js';
 import Selector from '../components/Select.js';
@@ -6,12 +6,12 @@ import SelectWarehouse from '../components/SelectWarehouse.js';
 
 class ProductForm extends Component {
     render() {
-        const { inputGoodSn, inputGoodsNumber, inputShipping } = ProductInputs
+        const { inputGoodSn, inputGoodsNumber, inputWarehouse, inputShipping } = ProductInputs
         return (
             <div className="product">
-                <Selector className="product" {...inputGoodSn} test={this.props.selectOnChange} />
-                <Input className="product" {...inputGoodsNumber} test={this.props.test} />
-                <SelectWarehouse className="product" test={this.props.selectOnChange} loadOptions={this.props.loadOptions} />
+                <Selector {...inputGoodSn} test={this.props.selectOnChangeProduct} />
+                <Input {...inputGoodsNumber} test={this.props.test} />
+                <SelectWarehouse value={this.props.warehouses} test={this.props.selectOnChangeWarehouse} />
             </div>
         )
     }

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import AsyncSelect from 'react-select/async';
+import Select from 'react-select/async';
 import "react-inputs-validation/lib/react-inputs-validation.min.css";
 
 class SelectWarehouse extends Component {
     render() {
-        return (<AsyncSelect
-            loadOptions={this.props.loadOptionsWarehouse}
-            onInputChange={this.props.test}
-        />)
+        return (<Select options={this.props.warehouses} onChange={this.props.test} />)
     }
 }
 

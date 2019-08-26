@@ -11,28 +11,28 @@ import {
     inputState,
     inputCity,
     inputZip
-} from '../constants/input/order.js';
-import ProductForm from './ProductForm.js';
-import Input from '../components/Input.js';
+} from '../constants/input/Order';
+import ProductForm from './ProductForm';
+import Input from '../components/Input';
 import { createOrder } from '../services/OrderService'
 import { getWarehousebyProduct } from '../services/ProductService'
-
-
+import { skuList } from "../constants/mocks/SkuList";
 
 function OrderForm() {
     const initProduct = { GoodSn: '', GoodsNumber: 0 };
+    const warehouses = [];
     const [stateForm, setStateForm] = useState({})
     const [stateProducts, setStateProducts] = useState([initProduct])
-    const [stateWarehouse, setStateWorehouse] = useState({})
+    const [stateWarehouse, setStateWorehouse] = useState(warehouses)
 
     function saveOrder(event) {
         event.preventDefault()
         createOrder(stateForm, stateProducts)
     }
 
-    function test(value, event) {
+    function test(product, event) {
         const name = event.target.name
-        setStateForm((prevState) => ({ ...prevState, [name]: value }))
+        setStateForm((prevState) => ({ ...prevState, [name]: product.value }))
     }
 
     function addProduct(e) {
@@ -49,20 +49,31 @@ function OrderForm() {
         })
     }
 
-    const loadOptionsWarehouse = index => async (value, event) => {
-        const warehouses = await getWarehousebyProduct(stateProducts[index].name)
-        setStateWorehouse(prevState => {
-            prevState[index] = { [value]: warehouses }
+    const selectOnChangeWarehouse = index => (value, event) => {
+        console.log('Hola warehouses')
+        setStateForm(prevState => {
+            prevState[index] = { ...prevState[index], [value]: value }
             return prevState;
         })
     }
 
-    const selectOnChange = index => (value, event) => {
-        console.log(event.target)
+    const loadOptionsWarehouse = index => {
+        console.log('estoy en loadOptionsWarehouse', index)
+        //const warehouses = await getWarehousebyProduct(stateProducts[index].GoodSn)
+
+        setStateWorehouse(prevState => {
+            prevState[index] = { value: [{ label: 339656401, value: 339656401 }, { label: 452550401, value: 452550401 }] }
+            return prevState;
+        })
+    }
+
+    const selectOnChangeProduct = index => (value, event) => {
+        console.log('Hola')
         setStateProducts(prevState => {
             prevState[index] = { ...prevState[index], [value]: value }
             return prevState;
         })
+
         loadOptionsWarehouse(index)
     }
 
@@ -84,7 +95,11 @@ function OrderForm() {
                 <div><h2>Datos de los productos</h2> <button type="button" className="button" onClick={addProduct}>Agregar producto</button>
                 </div>
                 {stateProducts.map((product, index) =>
-                    <ProductForm key={index} index={index} test={productOnChange(index)} selectOnChange={selectOnChange(index)} loadOptionsWarehouse={loadOptionsWarehouse} />
+                    <ProductForm key={index} index={index}
+                        test={productOnChange(index)}
+                        selectOnChangeProduct={selectOnChangeProduct(index)}
+                        selectOnChangeWarehouse={selectOnChangeWarehouse}
+                        warehouses={stateWarehouse[index] && stateWarehouse[index].value} />
                 )}
 
                 <button type="submit" className="button">Guardar</button>
