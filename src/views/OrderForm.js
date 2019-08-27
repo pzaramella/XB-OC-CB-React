@@ -27,13 +27,13 @@ function OrderForm() {
         /** order=[] */
         const order = createOrder(stateForm, stateProducts)
         /** TODO: save order */
-        /** TODO: pay order */
+        /** TODO: pay */
 
     }
 
     function test(product, event) {
         const name = event.target.name
-        setStateForm((prevState) => ({ ...prevState, [name]: product.value }))
+        setStateForm((prevState) => ({ ...prevState, [name]: product }))
     }
 
     function addProduct(e) {

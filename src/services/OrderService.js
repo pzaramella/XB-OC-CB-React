@@ -27,6 +27,7 @@ export const createOrder = async (order, products) => {
             warehouses.map((warehouse) => {
                 mappedOrder.warehouse = warehouse.name
                 mappedOrder.goods_info = warehouse.products
+                mappedOrder.shipping_method = 'SEEUDYWPH'
                 console.log('mappedOrder', mappedOrder)
                 order.push(createOrderCB(mappedOrder))
             })

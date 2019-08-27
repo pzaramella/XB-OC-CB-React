@@ -3,7 +3,7 @@ import { shippingMethod } from '../constants/mocks/Shipping'
 const axios = require('axios');
 
 export const createOrderCB = (mappedOrder) => {
-    axios.post(createOrderEndpoint, mappedOrder)
+    axios.post(createOrderEndpoint, { "order": [mappedOrder] })
         .then(function (response) {
             console.log(response);
             if (response.status === 200) return response.data

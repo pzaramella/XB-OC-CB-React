@@ -93,12 +93,12 @@ export const getWarehouseByProduct = (products) => {
                 const seenWarehouse = seenWarehouses[bestWh.warehouse]
                 seenWarehouses[bestWh.warehouse] = {
                     ...seenWarehouse,
-                    products: [...seenWarehouse.products, { good_sn: product.sku, good_number: product.quantity }]
+                    products: [...seenWarehouse.products, { goods_sn: product.sku, goods_number: product.quantity }]
                 }
             } else {
                 seenWarehouses[bestWh.warehouse] = {
                     name: bestWh.warehouse,
-                    products: [{ good_sn: product.sku, good_number: product.quantity }]
+                    products: [{ goods_sn: product.sku, goods_number: product.quantity }]
                 }
             }
         }
