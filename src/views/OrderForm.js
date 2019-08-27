@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, {Fragment, useState} from 'react'
 import '../css/OrderForm.css'
 import {
   inputOrdenSn,
@@ -14,11 +14,12 @@ import {
 } from '../constants/input/Order'
 import ProductForm from './ProductForm'
 import Input from '../components/Input'
-import { createOrder } from '../services/OrderService'
-import { withRouter } from 'react-router-dom'
+import ButtonContained from '../components/Button'
+import {createOrder} from '../services/OrderService'
+import {withRouter} from 'react-router-dom'
 
 function OrderForm(props) {
-  const initProduct = { GoodSn: '', GoodNumber: 0 }
+  const initProduct = {GoodSn: '', GoodNumber: 0}
   const warehouses = []
   const [stateForm, setStateForm] = useState({})
   const [stateProducts, setStateProducts] = useState([initProduct])
@@ -33,18 +34,18 @@ function OrderForm(props) {
       const key = Object.keys(promisesOrder[0].data)
 
       if (key.length === 1 && promisesOrder[0].data[key].status === 0) {
-        alert("Error al crear la orden. " + promisesOrder[0].data[key].msg)
+        alert('Error al crear la orden. ' + promisesOrder[0].data[key].msg)
       }
       /** TODO: save order */
       /** TODO: pay */
     } catch (e) {
-      alert("Error al crear la orden", e)
+      alert('Error al crear la orden', e)
     }
   }
 
   function test(product, event) {
     const name = event.target.name
-    setStateForm(prevState => ({ ...prevState, [name]: product }))
+    setStateForm(prevState => ({...prevState, [name]: product}))
   }
 
   function addProduct(e) {
@@ -56,7 +57,7 @@ function OrderForm(props) {
     console.log(event.target)
 
     setStateProducts(prevState => {
-      prevState[index] = { ...prevState[index], [name]: value }
+      prevState[index] = {...prevState[index], [name]: value}
       return prevState
     })
   }
@@ -65,7 +66,7 @@ function OrderForm(props) {
     console.log('Hola')
     const name = event.name
     setStateProducts(prevState => {
-      prevState[index] = { ...prevState[index], [name]: value.value }
+      prevState[index] = {...prevState[index], [name]: value.value}
       return prevState
     })
   }
@@ -100,9 +101,7 @@ function OrderForm(props) {
           />
         ))}
 
-        <button type="submit" className="button">
-          Guardar
-        </button>
+        <ButtonContained type="submit" name="Guardar" color="primary" />
       </form>
     </Fragment>
   )

@@ -1,7 +1,7 @@
 import ProductInputs from '../constants/input/Product.js'
 import React, {Component} from 'react'
 import Input from '../components/Input.js'
-import Selector from '../components/Select.js'
+import Selector from '../components/select.js'
 import SelectWarehouse from '../components/SelectWarehouse.js'
 
 class ProductForm extends Component {
