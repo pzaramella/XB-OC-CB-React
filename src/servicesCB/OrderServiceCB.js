@@ -3,7 +3,7 @@ import {
   productsDescriptionEndpoint,
   shippingMethodEndpoint,
   listOrdersEndpoint
-} from '../constants/Endpoints'
+} from '../constants/endpoints'
 import {shippingMethod} from '../constants/mocks/Shipping'
 import {NewReleases} from '@material-ui/icons'
 const axios = require('axios')

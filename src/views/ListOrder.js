@@ -45,6 +45,7 @@ const tableIcons = {
 }
 
 function ListOrders(props) {
+  const [loading, setLoading] = React.useState(false)
   const [state, setState] = React.useState({
     columns: [
       {title: 'Order ODBMS', field: 'user_order_sn'},
@@ -60,27 +61,20 @@ function ListOrders(props) {
 
   useEffect(() => {
     async function getListOrders() {
+      setLoading(true)
       const orders = await fetchOrders()
       setState({
         ...state,
-        data: [
-          {
-            user_order_sn: '1222',
-            order_cb: '123',
-            id: '123123',
-            firstname: 'nico',
-            lastname: 'flores',
-            createdDate: '123123',
-            tel: '217217'
-          }
-        ]
+        data: orders
       })
+      setLoading(false)
     }
     getListOrders()
   }, [])
 
   async function fetchOrders() {
     // try {
+
     const orders = await getListOrders()
     return orders.map(({user_order_sn, order_cb, id, firstname, lastname, createdDate, tel}) => {
       return {
@@ -100,19 +94,22 @@ function ListOrders(props) {
     props.history.push('/registro')
   }
 
-  console.log('Final data;', state)
-  return (
-    <Fragment>
-      <MaterialTable
-        options={{search: true}}
-        title="Listado de órdenes registradas"
-        icons={tableIcons}
-        columns={state.columns}
-        data={state.data}
-      />
-      <ButtonContained onClick={renderRedirect} name="Agregar nueva orden" color="primary" />
-    </Fragment>
-  )
+  {
+    return loading ? (
+      'Cargando...'
+    ) : (
+      <Fragment>
+        <MaterialTable
+          options={{search: true}}
+          title="Listado de órdenes registradas"
+          icons={tableIcons}
+          columns={state.columns}
+          data={state.data}
+        />
+        <ButtonContained onClick={renderRedirect} name="Agregar nueva orden" color="primary" />
+      </Fragment>
+    )
+  }
 }
 
 export default withRouter(ListOrders)
