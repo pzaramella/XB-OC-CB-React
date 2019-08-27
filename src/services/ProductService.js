@@ -1,15 +1,11 @@
-import { getProductsCB, getShippingCB } from '../servicesCB/OrderServiceCB'
-import { createArraybyObject, sortObjectAsc } from '../services/Utilities'
+import { getShippingCB } from '../servicesCB/OrderServiceCB'
+import { createArraybyObject } from '../services/Utilities'
 
 export let stringSkuProducts = (products) => {
     const skus = products.map((prod, index) => {
         return prod.good_sn
     })
     return skus.join()
-}
-
-export const avalaibleWarehouses = (warehouseList, quantity) => {
-    return warehouseList.filter(warehouse => warehouse.goods_number >= quantity);
 }
 
 export const getWarehousesByProduct = (productsCB, productsForm) => {
@@ -24,50 +20,6 @@ export const getWarehousesByProduct = (productsCB, productsForm) => {
 }
 
 export const getWarehouseByProduct = (products) => {
-    /*  const seenWarehouses = {};
- 
-     products.forEach(product => {
-         product.warehouseList.forEach(warehouse => {
-             const name = warehouse.warehouse
-             if (seenWarehouses[name] && Number(warehouse.goods_number) >= Number(product.quantity)) {
-                 const seenWarehouse = seenWarehouses[name]
-                 seenWarehouses[name] = [...seenWarehouse, product.sku]
-             } else if (Number(warehouse.goods_number) >= Number(product.quantity)) {
-                 seenWarehouses[name] = [product.sku]
-             }
-         });
-     });
-     let list = []
- 
-     products.forEach(product => {
-         let aux = { products: [] }
-         let alreadyExist = false;
-         product.warehouseList.forEach(warehouse => {
-             const name = warehouse.warehouse
-             console.log('Actual WS:', name)
-             console.log('seenWarehouses ', seenWarehouses[name])
-             console.log('aux ', aux)
-             if (seenWarehouses[name] && seenWarehouses[name].length > aux['products'].length) {
-                 console.log('list', console.log())
-                 alreadyExist = list.find(value => {
-                     return value.name === name && value.products.indexOf(product.sku) > -1
-                         || value.products.indexOf(product.sku) > -1
-                 })
- 
-                 if (!alreadyExist) {
-                     aux = { 'name': name, products: seenWarehouses[name] }
-                 } else {
-                     aux = { products: [] }
-                 }
-             }
-         })
- 
-         if (aux.products.length > 0)
-             list.push(aux)
- 
-     })
-     console.log('list', list)
-     return list; */
     const seenWarehouses = {};
 
     products.forEach(product => {
@@ -107,36 +59,25 @@ export const getWarehouseByProduct = (products) => {
     return Object.values(seenWarehouses);
 }
 
+export const getShippingMethod = async (warehouse) => {
+    try {
+        const shipping = await getShippingCB()
+        if (shipping) {
+            const result = shipping.reduce((result, current) => {
+                const isAvailableWarehouse = result.available_warehouse.indexOf(warehouse) > -1
+                const isAvailableWarehouseCurrent = current.available_warehouse.indexOf(warehouse) > -1
+                const resultDispatchDays = isAvailableWarehouse ? result.ship_time.split('-') : false
+                const currentDispatchDays = isAvailableWarehouseCurrent ? current.ship_time.split('-') : false
 
-/** products: List the product from order. Object from view format: Sku and Quantity respectively
- * [{good_sn: '3243434', good_number: 2},{good_sn: '55446677', good_number: 20}] */
-
-export const findShippingAndWarehouse = (products) => {
-    const productsDescriptions = getProductsCB(stringSkuProducts(products))
-    const shippingMethod = getShippingCB(stringSkuProducts(products))
-    /*TODO: Validar que tenga todos los productos de la orden */
-    /*TODO: Permanencia para el warehouse del primero en adelante para que entren en una misma orden */
-    const productsWarehouses = getWarehousesByProduct(productsDescriptions)
-    /** Loop products for merge the quantity selected with the response of warehouse array */
-    productsWarehouses = productsWarehouses.map((productWarehouse) => {
-        const result = products.find((product) => { return productWarehouse.sku === product.good_sn })
-        productWarehouse.quantity = result.good_number
-    })
-
-    productsWarehouses = productsWarehouses.map((product) => {
-        //Find warehouses with stock
-        product.warehouseList = avalaibleWarehouses(product.warehouseList, product.good_number)
-        product.warehouseList = sortObjectAsc(product.warehouseList, 'goods_sn')
-    })
-
-    getWarehouseByProduct(productsWarehouses)
+                if (!resultDispatchDays && currentDispatchDays) return current
+                else if (resultDispatchDays && !currentDispatchDays) return result
+                else if ((resultDispatchDays[0] < currentDispatchDays[0] || resultDispatchDays[1] < currentDispatchDays[1]))
+                    return result
+                else return current
+            })
+            return result.ship_code
+        } else return false
+    } catch (e) {
+        throw new Error(e)
+    }
 }
-
-export const getWarehousebyProduct = (async (productSku) => {
-    const product = await getProductsCB(productSku)
-    const warehouses = getWarehousesByProduct(product)
-    return warehouses.map((value, index) => {
-        return { label: value.warehouse + 'Stock: ' + value.goods_number, value: value.warehouse }
-    })
-})
-
