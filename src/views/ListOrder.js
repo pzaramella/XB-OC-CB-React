@@ -73,8 +73,6 @@ function ListOrders(props) {
   }, [])
 
   async function fetchOrders() {
-    // try {
-
     const orders = await getListOrders()
     return orders.map(({user_order_sn, order_cb, id, firstname, lastname, createdDate, tel}) => {
       return {
@@ -94,10 +92,11 @@ function ListOrders(props) {
     props.history.push('/registro')
   }
 
-  async function fetchTracking(row) {
+  async function fetchTracking(event, row) {
+    event.preventDefault()
     const tracking = await getTrackingList(row.order_cb)
-    console.log('Tracking ==========', tracking)
-    return 'AHHHH!!!'
+    console.log('tracking!', tracking)
+    alert(`Tracking status: ${tracking.data.status === 0 ? 'Error' : 'Delivery'}`)
   }
 
   {
@@ -111,7 +110,13 @@ function ListOrders(props) {
           icons={tableIcons}
           columns={state.columns}
           data={state.data}
-          detailPanel={async rowData => await fetchTracking(rowData)}
+          actions={[
+            {
+              icon: 'save',
+              tooltip: 'Tracking',
+              onClick: (event, rowData) => fetchTracking(event, rowData)
+            }
+          ]}
         />
         <ButtonContained onClick={renderRedirect} name="Agregar nueva orden" color="primary" />
       </Fragment>
