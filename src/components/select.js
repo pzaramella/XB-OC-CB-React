@@ -1,45 +1,45 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react'
 import Select from 'react-select'
-import "react-inputs-validation/lib/react-inputs-validation.min.css";
+import 'react-inputs-validation/lib/react-inputs-validation.min.css'
 
 class Selector extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props)
 
-        console.log(props)
+    console.log(props)
 
-        this.state = {
-            /*id: this.props.id,
+    this.state = {
+      /*id: this.props.id,
             name: this.props.name,
             value: this.props.value,
             type: this.props.type,
             disabled: this.props.disabled,
             validate: this.props.validate,*/
-            validate: this.props.validate,
-            hasError: true,
-            //handler: this.props.test
-        };
-
-        this.validateForm = this.validateForm.bind(this);
+      validate: this.props.validate,
+      hasError: true
+      //handler: this.props.test
     }
 
-    toggleValidating(validate) {
-        this.setState({ validate });
-    }
+    this.validateForm = this.validateForm.bind(this)
+  }
 
-    validateForm(e) {
-        e.preventDefault();
-        this.toggleValidating(true);
-        const { hasError } = this.state;
+  toggleValidating(validate) {
+    this.setState({validate})
+  }
 
-        if (!hasError) {
-            alert("All validated!");
-        }
-    }
+  validateForm(e) {
+    e.preventDefault()
+    this.toggleValidating(true)
+    const {hasError} = this.state
 
-    render() {
-        return (<Select options={this.props.value} name={this.props.name} onChange={this.props.test} />)
+    if (!hasError) {
+      alert('All validated!')
     }
+  }
+
+  render() {
+    return <Select options={this.props.value} name={this.props.name} onChange={this.props.test} />
+  }
 }
 
-export default Selector;
+export default Selector
