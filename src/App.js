@@ -1,17 +1,12 @@
 import React from 'react';
-import './App.css';
-import OrderForm from './views/OrderForm'
+import Routes from './routes/Routes'
 
 /* Routes */
 /* Nav, autentification, error bundle */
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h3>Formulario de Ordenes de Compra - CB</h3>
-      </header>
-      <OrderForm />
-    </div>
+    <Routes />
   );
 }
 
