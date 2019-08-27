@@ -4,14 +4,14 @@ import {
   shippingMethodEndpoint,
   listOrdersEndpoint
 } from '../constants/Endpoints'
-import { shippingMethod } from '../constants/mocks/Shipping'
-import { NewReleases } from '@material-ui/icons';
+import {shippingMethod} from '../constants/mocks/Shipping'
+import {NewReleases} from '@material-ui/icons'
 const axios = require('axios')
 
 export const createOrderCB = async mappedOrder => {
   try {
-    const result = await axios.post(createOrderEndpoint, { order: [mappedOrder] })
-    return result;
+    const result = await axios.post(createOrderEndpoint, {order: [mappedOrder]})
+    return result
   } catch (error) {
     console.log(error)
     throw new Error(error)
@@ -21,7 +21,7 @@ export const createOrderCB = async mappedOrder => {
 /** productsSku: String of skus comma separator. Eg: "122221,223442" */
 export const getProductsCB = async productsSku => {
   try {
-    const result = await axios.post(productsDescriptionEndpoint, { skus: productsSku })
+    const result = await axios.post(productsDescriptionEndpoint, {skus: productsSku})
     return result.data
   } catch (error) {
     console.log(error)
@@ -29,23 +29,20 @@ export const getProductsCB = async productsSku => {
   }
 }
 
-export const getShippingCB = (async () => {
+export const getShippingCB = async () => {
   try {
-    const result = await axios
-      .post(shippingMethodEndpoint)
+    const result = await axios.post(shippingMethodEndpoint)
     if (result.status === 200) return result.data
     else return false
-  }
-  catch (e) {
+  } catch (e) {
     console.log(e)
     return false
   }
-})
+}
 
-export const getListOrdersCB = (async () => {
+export const getListOrdersCB = async () => {
   // try {
-  const result = await axios
-    .post(listOrdersEndpoint)
+  const result = await axios.post(listOrdersEndpoint)
   console.log('result', result)
   if (result.status === 200) return result.data
   else return []
@@ -53,4 +50,4 @@ export const getListOrdersCB = (async () => {
   // catch (e) {
   //   throw new Error(e)
   // }
-})
+}
