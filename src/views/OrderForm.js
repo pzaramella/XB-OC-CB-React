@@ -14,6 +14,7 @@ import {
 } from '../constants/input/Order'
 import ProductForm from './ProductForm'
 import Input from '../components/Input'
+import ButtonContained from '../components/Button'
 import {createOrder} from '../services/OrderService'
 import {withRouter} from 'react-router-dom'
 
@@ -89,9 +90,7 @@ function OrderForm(props) {
           />
         ))}
 
-        <button type="submit" className="button">
-          Guardar
-        </button>
+        <ButtonContained type="submit" name="Guardar" color="primary" />
       </form>
     </Fragment>
   )
