@@ -1,5 +1,5 @@
 export const baseApiEndpoint = 'https://fn-crossborder-xb-sodimac-dev.azurewebsites.net/api/'
-export const baseApiEndpointDev = 'https://fn-crossborder-xb-sodimac-dev.azurewebsites.net/api/'
+export const baseApiEndpointDev = 'http://localhost:3001'
 export const createOrderEndpoint = baseApiEndpointDev + 'order'
 export const productsDescriptionEndpoint = baseApiEndpointDev + 'product'
 export const shippingMethodEndpoint = baseApiEndpointDev + 'shipping'
