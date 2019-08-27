@@ -8,9 +8,13 @@ class ProductForm extends Component {
   render() {
     const {inputGoodSn, inputGoodsNumber, inputWarehouse, inputShipping} = ProductInputs
     return (
-      <div className="product">
-        <Selector {...inputGoodSn} test={this.props.selectOnChangeProduct} />
-        <Input {...inputGoodsNumber} test={this.props.test} />
+      <div className="product display-flex">
+        <div className="half-width">
+          <Selector {...inputGoodSn} test={this.props.selectOnChangeProduct} />
+        </div>
+        <div className="half-width margin-goodnumber">
+          <Input {...inputGoodsNumber} test={this.props.test} />
+        </div>
       </div>
     )
   }

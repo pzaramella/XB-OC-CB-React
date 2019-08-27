@@ -4,7 +4,6 @@ import {Divider} from '@material-ui/core'
 import {withRouter} from 'react-router-dom'
 
 function ListOrders(props) {
-  console.log(props)
   const [state, setState] = React.useState({
     columns: [
       {title: 'Name', field: 'name'},
