@@ -45,6 +45,7 @@ const tableIcons = {
 }
 
 function ListOrders(props) {
+  const [loading, setLoading] = React.useState(false)
   const [state, setState] = React.useState({
     columns: [
       { title: 'Order ODBMS', field: 'user_order_sn' },
@@ -60,17 +61,20 @@ function ListOrders(props) {
 
   useEffect(() => {
     async function getListOrders() {
+      setLoading(true)
       const orders = await fetchOrders()
       setState({
         ...state,
         data: orders
       })
+      setLoading(false)
     }
     getListOrders()
   }, [])
 
   async function fetchOrders() {
     // try {
+
     const orders = await getListOrders()
     return orders.map(({ user_order_sn, order_cb, id, firstname, lastname, createdDate, tel }) => {
       return {
