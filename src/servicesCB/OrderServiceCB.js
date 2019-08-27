@@ -2,10 +2,12 @@ import {
   createOrderEndpoint,
   productsDescriptionEndpoint,
   shippingMethodEndpoint,
-  listOrdersEndpoint
+  listOrdersEndpoint,
+  trackingEndpoint
 } from '../constants/endpoints'
 import {shippingMethod} from '../constants/mocks/Shipping'
 import {NewReleases} from '@material-ui/icons'
+import {AST_Expansion} from 'terser'
 const axios = require('axios')
 
 export const createOrderCB = async mappedOrder => {
@@ -43,11 +45,14 @@ export const getShippingCB = async () => {
 export const getListOrdersCB = async () => {
   // try {
   const result = await axios.post(listOrdersEndpoint)
-  console.log('result', result)
   if (result.status === 200) return result.data
   else return []
   // }
   // catch (e) {
   //   throw new Error(e)
   // }
+}
+
+export const getTracking = async tracking => {
+  return await axios.post(trackingEndpoint, {orderSn: tracking})
 }
