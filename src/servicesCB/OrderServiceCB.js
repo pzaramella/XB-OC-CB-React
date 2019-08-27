@@ -1,9 +1,11 @@
 import {
   createOrderEndpoint,
   productsDescriptionEndpoint,
-  shippingMethodEndpoint
+  shippingMethodEndpoint,
+  listOrdersEndpoint
 } from '../constants/Endpoints'
 import { shippingMethod } from '../constants/mocks/Shipping'
+import { NewReleases } from '@material-ui/icons';
 const axios = require('axios')
 
 export const createOrderCB = async mappedOrder => {
@@ -38,4 +40,17 @@ export const getShippingCB = (async () => {
     console.log(e)
     return false
   }
+})
+
+export const getListOrdersCB = (async () => {
+  // try {
+  const result = await axios
+    .post(listOrdersEndpoint)
+  console.log('result', result)
+  if (result.status === 200) return result.data
+  else return []
+  // }
+  // catch (e) {
+  //   throw new Error(e)
+  // }
 })
