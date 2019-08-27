@@ -1,7 +1,7 @@
-import React, { Fragment, forwardRef, useEffect } from 'react'
+import React, {Fragment, forwardRef, useEffect} from 'react'
 import MaterialTable from 'material-table'
-import { Divider } from '@material-ui/core'
-import { withRouter } from 'react-router-dom'
+import {Divider} from '@material-ui/core'
+import {withRouter} from 'react-router-dom'
 import {
   AddBox,
   ArrowUpward,
@@ -22,7 +22,7 @@ import {
 } from '@material-ui/icons'
 
 import ButtonContained from '../components/Button'
-import { getListOrders } from '../services/OrderService'
+import {getListOrders} from '../services/OrderService'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -48,13 +48,13 @@ function ListOrders(props) {
   const [loading, setLoading] = React.useState(false)
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Order ODBMS', field: 'user_order_sn' },
-      { title: 'Order CB', field: 'order_cb' },
-      { title: 'Id Order', field: 'id', type: 'numeric' },
-      { title: 'Nombre Cliente', field: 'firstname' },
-      { title: 'Apellido Cliente', field: 'lastname' },
-      { title: 'Teléfono', field: 'tel' },
-      { title: 'Fecha registro', field: 'createdDate' }
+      {title: 'Order ODBMS', field: 'user_order_sn'},
+      {title: 'Order CB', field: 'order_cb'},
+      {title: 'Id Order', field: 'id', type: 'numeric'},
+      {title: 'Nombre Cliente', field: 'firstname'},
+      {title: 'Apellido Cliente', field: 'lastname'},
+      {title: 'Teléfono', field: 'tel'},
+      {title: 'Fecha registro', field: 'createdDate'}
     ],
     data: []
   })
@@ -73,10 +73,8 @@ function ListOrders(props) {
   }, [])
 
   async function fetchOrders() {
-    // try {
-
     const orders = await getListOrders()
-    return orders.map(({ user_order_sn, order_cb, id, firstname, lastname, createdDate, tel }) => {
+    return orders.map(({user_order_sn, order_cb, id, firstname, lastname, createdDate, tel}) => {
       return {
         user_order_sn,
         order_cb,
@@ -94,19 +92,36 @@ function ListOrders(props) {
     props.history.push('/registro')
   }
 
-  console.log('Final data;', state)
-  return (
-    <Fragment>
-      <MaterialTable
-        options={{ search: true }}
-        title="Listado de órdenes registradas"
-        icons={tableIcons}
-        columns={state.columns}
-        data={state.data}
-      />
-      <ButtonContained onClick={renderRedirect} name="Agregar nueva orden" color="primary" />
-    </Fragment>
-  )
+  async function fetchTracking(event, row) {
+    event.preventDefault()
+    const tracking = await getTrackingList(row.order_cb)
+    console.log('tracking!', tracking)
+    alert(`Tracking status: ${tracking.data.status === 0 ? 'Error' : 'Delivery'}`)
+  }
+
+  {
+    return loading ? (
+      'Cargando...'
+    ) : (
+      <Fragment>
+        <MaterialTable
+          options={{search: true}}
+          title="Listado de órdenes registradas"
+          icons={tableIcons}
+          columns={state.columns}
+          data={state.data}
+          actions={[
+            {
+              icon: 'save',
+              tooltip: 'Tracking',
+              onClick: (event, rowData) => fetchTracking(event, rowData)
+            }
+          ]}
+        />
+        <ButtonContained onClick={renderRedirect} name="Agregar nueva orden" color="primary" />
+      </Fragment>
+    )
+  }
 }
 
 export default withRouter(ListOrders)
