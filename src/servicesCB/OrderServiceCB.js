@@ -4,15 +4,15 @@ import {
   shippingMethodEndpoint,
   listOrdersEndpoint,
   trackingEndpoint
-} from '../constants/endpoints'
-import {shippingMethod} from '../constants/mocks/Shipping'
-import {NewReleases} from '@material-ui/icons'
-import {AST_Expansion} from 'terser'
+} from '../constants/Endpoints'
+import { shippingMethod } from '../constants/mocks/Shipping'
+import { NewReleases } from '@material-ui/icons'
+import { AST_Expansion } from 'terser'
 const axios = require('axios')
 
 export const createOrderCB = async mappedOrder => {
   try {
-    const result = await axios.post(createOrderEndpoint, {order: [mappedOrder]})
+    const result = await axios.post(createOrderEndpoint, { order: [mappedOrder] })
     return result
   } catch (error) {
     console.log(error)
@@ -23,7 +23,7 @@ export const createOrderCB = async mappedOrder => {
 /** productsSku: String of skus comma separator. Eg: "122221,223442" */
 export const getProductsCB = async productsSku => {
   try {
-    const result = await axios.post(productsDescriptionEndpoint, {skus: productsSku})
+    const result = await axios.post(productsDescriptionEndpoint, { skus: productsSku })
     return result.data
   } catch (error) {
     console.log(error)
@@ -54,5 +54,5 @@ export const getListOrdersCB = async () => {
 }
 
 export const getTracking = async tracking => {
-  return await axios.post(trackingEndpoint, {orderSn: tracking})
+  return await axios.post(trackingEndpoint, { orderSn: tracking })
 }

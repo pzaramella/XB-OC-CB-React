@@ -98,7 +98,7 @@ function ListOrders(props) {
   return (
     <Fragment>
       <MaterialTable
-        options={{ search: true }}
+        options={{ search: true, columnsButton: true }}
         title="Listado de órdenes registradas"
         icons={tableIcons}
         columns={state.columns}
