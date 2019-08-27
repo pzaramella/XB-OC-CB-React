@@ -24,12 +24,23 @@ function OrderForm(props) {
   const [stateForm, setStateForm] = useState({})
   const [stateProducts, setStateProducts] = useState([initProduct])
 
-  function saveOrder(event) {
+  async function saveOrder(event) {
     event.preventDefault()
-    /** order=[] */
-    const order = createOrder(stateForm, stateProducts)
-    /** TODO: save order */
-    /** TODO: pay */
+    try {
+      const order = await createOrder(stateForm, stateProducts)
+      const promisesOrder = await Promise.all(order)
+      console.log('PROMISE ALL ', promisesOrder)
+      /** Esto cambiará cuando se estandarice la respuesta del mensaje */
+      const key = Object.keys(promisesOrder[0].data)
+
+      if (key.length === 1 && promisesOrder[0].data[key].status === 0) {
+        alert('Error al crear la orden. ' + promisesOrder[0].data[key].msg)
+      }
+      /** TODO: save order */
+      /** TODO: pay */
+    } catch (e) {
+      alert('Error al crear la orden', e)
+    }
   }
 
   function test(product, event) {
