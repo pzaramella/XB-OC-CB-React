@@ -22,7 +22,7 @@ import {
 } from '@material-ui/icons'
 
 import ButtonContained from '../components/Button'
-import {getListOrders} from '../services/OrderService'
+import {getListOrders, getTrackingList} from '../services/OrderService'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -94,6 +94,12 @@ function ListOrders(props) {
     props.history.push('/registro')
   }
 
+  async function fetchTracking(row) {
+    const tracking = await getTrackingList(row.order_cb)
+    console.log('Tracking ==========', tracking)
+    return 'AHHHH!!!'
+  }
+
   {
     return loading ? (
       'Cargando...'
@@ -105,6 +111,7 @@ function ListOrders(props) {
           icons={tableIcons}
           columns={state.columns}
           data={state.data}
+          detailPanel={async rowData => await fetchTracking(rowData)}
         />
         <ButtonContained onClick={renderRedirect} name="Agregar nueva orden" color="primary" />
       </Fragment>
